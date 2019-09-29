@@ -1,11 +1,11 @@
 <template>
-  <v-card flat outlined width="460" class="pa-2 justify-center" color="blue-grey">
+  <v-card flat outlined width="460" class="pa-2" color="blue-grey">
     <v-layout wrap class="pa-0 ma-0">
       <template v-for="(_, i) in n">
         <v-flex xs12 :key="i">
           <v-layout align-center justify-center fill-height text-center class="pa-0 ma-0">
             <template v-for="(_, j) in n">
-              <Square :key="i * n + j" :value="nums[i][j] == 0 ? '': nums[i][j].toString()" />
+              <Square :key="i * n + j" :num="nums[i][j]" :direction="direction" />
             </template>
           </v-layout>
         </v-flex>
@@ -15,8 +15,16 @@
 </template>
 
 <script lang="ts">
-import { Component, Prop, Vue, Provide, Emit } from "vue-property-decorator";
+import {
+  Component,
+  Prop,
+  Vue,
+  Provide,
+  Emit,
+  Watch
+} from "vue-property-decorator";
 import Square from "./Square.vue";
+import { TweenLite } from "gsap";
 
 @Component({
   components: {
@@ -31,6 +39,7 @@ export default class G2048 extends Vue {
     [0, 0, 0, 0]
   ];
   @Provide() public n: number = 4;
+  @Provide() public direction: string = "Left";
 
   public countZero(nums: number[][]) {
     let count = 0;
@@ -146,6 +155,7 @@ export default class G2048 extends Vue {
       if (rotMap.has(e.key)) {
         const rot = rotMap.get(e.key)!;
         if (this.canMove(this.nums, rot)) {
+          this.direction = e.key.substr(5);
           this.move(this.nums, rot);
           this.merge(this.nums, rot);
           this.move(this.nums, rot);

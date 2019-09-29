@@ -2,11 +2,13 @@
   <v-app>
     <Header />
     <v-content>
-      <v-layout align-center justify-center row fill-height text-center mt-10>
+      <v-layout align-center justify-center fill-height text-center row wrap mt-5>
         <v-flex md6>
-          <transition name="slide-x-transition" mode="out-in">
-            <router-view></router-view>
-          </transition>
+          <v-layout align-center justify-center fill-height text-center row wrap>
+            <transition name="slide-x-transition" mode="out-in">
+              <router-view></router-view>
+            </transition>
+          </v-layout>
         </v-flex>
       </v-layout>
     </v-content>
@@ -15,7 +17,6 @@
 
 <style>
 #app {
-  /* font-family: "Josefin Sans", "ZCOOL XiaoWei", sans-serif; */
   font-family: sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
