@@ -1,14 +1,13 @@
 <template>
-  <div class="square-2048">
+  <v-card class="ma-1 square-2048" width="90" height="90">
     <div class="text">{{value}}</div>
-  </div>
+  </v-card>
 </template>
 
 <style scoped>
 div.square-2048 {
-  background-color: cyan;
+  background-color: coral;
   border: 1px solid rgba(0, 0, 0, 0.12);
-  padding-top: 100%;
   margin: 0;
   position: relative;
 }
@@ -18,7 +17,9 @@ div.text {
   left: 0;
   bottom: 0;
   right: 0;
-  transform: translateY(40%);
+  font-size: 4rem;
+  font-family: "Changa";
+  color: aliceblue;
 }
 </style>
 
