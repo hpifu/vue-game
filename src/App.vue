@@ -2,7 +2,7 @@
   <v-app>
     <Header />
     <v-content>
-      <v-layout justify-center row fill-height text-center mt-10>
+      <v-layout align-center justify-center row fill-height text-center mt-10>
         <v-flex md6>
           <transition name="slide-x-transition" mode="out-in">
             <router-view></router-view>
@@ -30,8 +30,8 @@ import Header from "./components/Header.vue";
 export default Vue.extend({
   name: "App",
   components: {
-    Header,
+    Header
   },
-  data: () => ({}),
+  data: () => ({})
 });
 </script>

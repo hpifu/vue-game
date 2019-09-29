@@ -1,10 +1,14 @@
 <template>
-  <v-card flat outlined width="420" class="py-4 px-4">
-    <v-layout justify-center row fill-height text-center>
-      <template v-for="(_, i) in 4">
-        <template v-for="(_, j) in 4">
-          <Square :key="i * y1 + j" :value="nums[i][j] == 0 ? '': nums[i][j]" />
-        </template>
+  <v-card flat outlined width="460" class="pa-2 justify-center" color="blue-grey">
+    <v-layout wrap class="pa-0 ma-0">
+      <template v-for="(_, i) in n">
+        <v-flex xs12 :key="i">
+          <v-layout align-center justify-center fill-height text-center class="pa-0 ma-0">
+            <template v-for="(_, j) in n">
+              <Square :key="i * n + j" :value="nums[i][j] == 0 ? '': nums[i][j].toString()" />
+            </template>
+          </v-layout>
+        </v-flex>
       </template>
     </v-layout>
   </v-card>
@@ -16,17 +20,17 @@ import Square from "./Square.vue";
 
 @Component({
   components: {
-    Square,
-  },
+    Square
+  }
 })
 export default class G2048 extends Vue {
   @Provide() public nums: number[][] = [
     [0, 0, 0, 0],
     [0, 0, 0, 0],
     [0, 0, 0, 0],
-    [0, 0, 0, 0],
+    [0, 0, 0, 0]
   ];
-  @Provide() public y1: number = 4;
+  @Provide() public n: number = 4;
 
   public countZero(nums: number[][]) {
     let count = 0;
@@ -60,7 +64,7 @@ export default class G2048 extends Vue {
 
   public canMove(
     nums: number[][],
-    rot: (x: number, y: number) => number[],
+    rot: (x: number, y: number) => number[]
   ): boolean {
     for (let i = 0; i < 4; i++) {
       let k = 0;
@@ -137,7 +141,7 @@ export default class G2048 extends Vue {
         ["ArrowLeft", this.left],
         ["ArrowRight", this.right],
         ["ArrowDown", this.down],
-        ["ArrowUp", this.up],
+        ["ArrowUp", this.up]
       ]);
       if (rotMap.has(e.key)) {
         const rot = rotMap.get(e.key)!;
@@ -154,11 +158,6 @@ export default class G2048 extends Vue {
     for (let i = 0; i < 3; i++) {
       this.addNumTwo(this.nums);
     }
-    // for (let i = 0; i < 4; i++) {
-    //   for (let j = 0; j < 4; j++) {
-    //     this.$set(this.nums[i], j, i + "," + j);
-    //   }
-    // }
   }
 
   private left(x: number, y: number) {
@@ -170,11 +169,11 @@ export default class G2048 extends Vue {
   }
 
   private right(x: number, y: number) {
-    return [x, this.y1 - y - 1];
+    return [x, this.n - y - 1];
   }
 
   private down(x: number, y: number) {
-    return [this.y1 - y - 1, x];
+    return [this.n - y - 1, x];
   }
 }
 </script>

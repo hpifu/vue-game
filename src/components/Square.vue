@@ -1,24 +1,20 @@
 <template>
-  <v-card class="ma-1 square-2048" width="90" height="90">
-    <div class="text">{{value}}</div>
+  <v-card class="ma-2" width="90" height="90" :color="color">
+    <v-layout align-center justify-center fill-height text-center row wrap class="pa-0 ma-0">
+      <v-flex class="text" :style="{ 'font-size': fontSize }">{{value}}</v-flex>
+    </v-layout>
   </v-card>
 </template>
 
 <style scoped>
 div.square-2048 {
-  background-color: coral;
   border: 1px solid rgba(0, 0, 0, 0.12);
   margin: 0;
   position: relative;
 }
+
 div.text {
-  position: absolute;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  right: 0;
-  font-size: 4rem;
-  font-family: "Changa";
+  font-family: "Concert One";
   color: aliceblue;
 }
 </style>
@@ -28,12 +24,45 @@ import { Component, Prop, Vue } from "vue-property-decorator";
 
 @Component
 export default class Square extends Vue {
-  @Prop({ default: "title" }) private value!: string;
+  @Prop({ default: "" }) private value!: string;
 
-  public mounted() {
-    // document.getElementById("square").style.width = document.getElementById(
-    //   "container"
-    // ).offsetHeight;
+  get fontSize() {
+    if (this.value.length < 3) {
+      return "4rem";
+    } else if (this.value.length < 4) {
+      return "3rem";
+    }
+    return "2.2rem";
+  }
+
+  get color() {
+    if (this.value === "") {
+      return "green lighten-4";
+    } else if (this.value === "2") {
+      return "light-blue darken-1";
+    } else if (this.value === "4") {
+      return "cyan darken-1";
+    } else if (this.value === "8") {
+      return "teal darken-1";
+    } else if (this.value === "16") {
+      return "green darken-1";
+    } else if (this.value === "32") {
+      return "light-green darken-1";
+    } else if (this.value === "64") {
+      return "lime darken-1";
+    } else if (this.value === "128") {
+      return "yellow darken-1";
+    } else if (this.value === "256") {
+      return "amber darken-1";
+    } else if (this.value === "512") {
+      return "orange darken-1";
+    } else if (this.value === "1024") {
+      return "deep-orange darken-1";
+    } else if (this.value === "2048") {
+      return "brown darken-1";
+    }
+
+    return "green lighten-4";
   }
 }
 </script>
