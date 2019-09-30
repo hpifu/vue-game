@@ -1,4 +1,4 @@
-repository=vue-game
+repository=$(shell basename -s .git $(shell git config --get remote.origin.url))
 user=hatlonely
 version=$(shell git describe --tags)
 
