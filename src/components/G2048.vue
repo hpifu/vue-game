@@ -1,5 +1,17 @@
 <template>
   <v-card flat outlined width="460" class="pa-2" color="blue-grey">
+    <v-layout align-center justify-center fill-height text-center class="px-0 py-6 ma-0">
+      <v-flex md6>
+        <v-layout align-center justify-center fill-height text-center class="pa-0 ma-0">
+          <Score :num="score" title="score" />
+        </v-layout>
+      </v-flex>
+      <v-flex md6>
+        <v-layout align-center justify-center fill-height text-center class="pa-0 ma-0">
+          <Score :num="best" title="best" />
+        </v-layout>
+      </v-flex>
+    </v-layout>
     <v-layout wrap class="pa-0 ma-0">
       <template v-for="(_, i) in n">
         <v-flex xs12 :key="i">
@@ -24,11 +36,13 @@ import {
   Watch
 } from "vue-property-decorator";
 import Square from "./Square.vue";
+import Score from "./Score.vue";
 import { TweenLite } from "gsap";
 
 @Component({
   components: {
-    Square
+    Square,
+    Score
   }
 })
 export default class G2048 extends Vue {
@@ -40,6 +54,8 @@ export default class G2048 extends Vue {
   ];
   @Provide() public n: number = 4;
   @Provide() public direction: string = "Left";
+  @Provide() public score: number = 0;
+  @Provide() public best: number = 0;
 
   public countZero(nums: number[][]) {
     let count = 0;
@@ -69,6 +85,16 @@ export default class G2048 extends Vue {
         }
       }
     }
+  }
+
+  public gameOver(): boolean {
+    return (
+      this.countZero(this.nums) === 0 &&
+      !this.canMove(this.nums, this.left) &&
+      !this.canMove(this.nums, this.right) &&
+      !this.canMove(this.nums, this.up) &&
+      !this.canMove(this.nums, this.down)
+    );
   }
 
   public canMove(
@@ -138,6 +164,11 @@ export default class G2048 extends Vue {
           this.$set(nums[x1], y1, nums[x1][y1] * 2);
           this.$set(nums[x2], y2, 0);
           j++;
+
+          this.score += nums[x1][y1];
+          if (this.best < this.score) {
+            this.best = this.score;
+          }
         }
       }
     }
@@ -160,6 +191,9 @@ export default class G2048 extends Vue {
           this.merge(this.nums, rot);
           this.move(this.nums, rot);
           this.addNumTwo(this.nums);
+        }
+        if (this.gameOver()) {
+          // console.log("ganme over");
         }
       }
       e.stopPropagation();
