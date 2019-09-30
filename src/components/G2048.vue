@@ -23,8 +23,27 @@
         </v-flex>
       </template>
     </v-layout>
+
+    <v-dialog v-model="show" persistent max-width="230" transition color="rgb(0, 0, 0, 0)">
+      <v-card color="rgb(0, 0, 0, 0.5)">
+        <v-layout align-center justify-center fill-height text-center row wrap class="pa-6 ma-0">
+          <v-flex md12 class="text ma-6">Game Over</v-flex>
+          <v-flex md12>
+            <v-btn text color="light-blue lighten-5" @click="newGame()">重新开始</v-btn>
+          </v-flex>
+        </v-layout>
+      </v-card>
+    </v-dialog>
   </v-card>
 </template>
+
+<style scoped>
+div.text {
+  font-family: "Concert One";
+  color: #e1f5fe;
+  font-size: 1rem;
+}
+</style>
 
 <script lang="ts">
 import {
@@ -56,6 +75,20 @@ export default class G2048 extends Vue {
   @Provide() public direction: string = "Left";
   @Provide() public score: number = 0;
   @Provide() public best: number = 0;
+  @Provide() public show: boolean = false;
+
+  public newGame() {
+    this.show = false;
+    for (let i = 0; i < this.n; i++) {
+      for (let j = 0; j < this.n; j++) {
+        this.nums[i][j] = 0;
+      }
+    }
+    for (let i = 0; i < 3; i++) {
+      this.addNumTwo(this.nums);
+    }
+    this.score = 0;
+  }
 
   public countZero(nums: number[][]) {
     let count = 0;
@@ -193,15 +226,13 @@ export default class G2048 extends Vue {
           this.addNumTwo(this.nums);
         }
         if (this.gameOver()) {
-          // console.log("ganme over");
+          this.show = true;
         }
       }
       e.stopPropagation();
     });
 
-    for (let i = 0; i < 3; i++) {
-      this.addNumTwo(this.nums);
-    }
+    this.newGame();
   }
 
   private left(x: number, y: number) {
