@@ -1,4 +1,4 @@
-repository=vue-tool
+repository=vue-game
 user=hatlonely
 version=$(shell git describe --tags)
 
